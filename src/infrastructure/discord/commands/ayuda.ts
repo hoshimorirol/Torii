@@ -12,39 +12,19 @@ export async function handleAyudaCommand(interaction: ChatInputCommandInteractio
     .addFields(
       {
         name: 'Sensei - Crear y Gestionar Expedientes',
-        value: `1 comando para crear:
-/expediente crear -> Abre un modal, llena los campos, listo.
-
-Todo lo demas son botones en el embed:
-Publicar -> Publica en #tablero y crea thread
-Abrir Inscripciones -> Los cazadores pueden apuntarse
-Cerrar -> Cierra inscripciones manualmente
-Iniciar -> La expedicion comienza (En Curso)
-Finalizar -> Abre modal para escribir la bitacora
-Archivar -> Mueve a la Cronica del Santuario
-Editar -> Modifica titulo, descripcion o notas
-Eliminar -> Borra el expediente (solo en borrador)`,
+        value: '/expediente crear -> Abre un modal, llena los campos, listo. Todo lo demas son botones en el embed: Publicar, Abrir Inscripciones, Cerrar, Iniciar, Finalizar, Archivar, Editar, Eliminar.',
       },
       {
         name: 'Cazadores - Inscribirse en Expedientes',
-        value: `No necesitas comandos.
-Cuando una expedicion esta en estado Inscripciones Abiertas, aparece un boton en el embed:
-
-Apuntarme -> Te inscribes (pide nombre de personaje)
-Retirarme -> Cancelas tu inscripcion`,
+        value: 'No necesitas comandos. Cuando una expedicion esta en estado Inscripciones Abiertas, aparece un boton en el embed: Apuntarme (te inscribes) o Retirarme (cancelas).',
       },
       {
         name: 'Archivo Historico',
-        value: '/explorar archivo -> Buscador de todas las expediciones pasadas
-
-Filtros disponibles: por Sensei, region, rango, categoria, fecha y busqueda de texto libre en bitacoras.',
+        value: '/explorar archivo -> Buscador de todas las expediciones pasadas. Filtros: por Sensei, region, rango, categoria, fecha.',
       },
       {
         name: 'Comandos disponibles',
-        value: `/expediente crear - Crear nueva expedicion (Sensei)
-/expediente ver <codigo> - Ver cualquier expedicion
-/explorar archivo - Archivo historico
-/ayuda - Esta guia`,
+        value: '/expediente crear - Crear nueva expedicion (Sensei)\n/expediente ver <codigo> - Ver cualquier expedicion\n/explorar archivo - Archivo historico\n/ayuda - Esta guia',
       }
     )
     .setFooter({ text: 'Torii - Sistema de Expediciones del Santuario' });
