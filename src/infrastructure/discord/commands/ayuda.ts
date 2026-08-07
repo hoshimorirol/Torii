@@ -2,72 +2,52 @@ import { SlashCommandBuilder, ChatInputCommandInteraction, EmbedBuilder } from '
 
 export const ayudaCommand = new SlashCommandBuilder()
   .setName('ayuda')
-  .setDescription('Guía del Santuario — Torii');
+  .setDescription('Guia del Santuario - Torii');
 
 export async function handleAyudaCommand(interaction: ChatInputCommandInteraction) {
   const embed = new EmbedBuilder()
-    .setTitle('⛩️ Guía del Santuario — Torii')
-    .setDescription('Sistema oficial de gestión de expediciones. **Un solo comando, todo con botones.**')
+    .setTitle('Guia del Santuario - Torii')
+    .setDescription('Sistema oficial de gestion de expediciones. Un solo comando, todo con botones.')
     .setColor(0x8B5CF6)
     .addFields(
       {
-        name: '📜 Sensei — Crear y Gestionar Expedientes',
-        value:
-          '**1 comando para crear:**
-' +
-          '`/expediente crear` → Abre un modal, llena los campos, listo.
+        name: 'Sensei - Crear y Gestionar Expedientes',
+        value: `1 comando para crear:
+/expediente crear -> Abre un modal, llena los campos, listo.
 
-' +
-          '**Todo lo demás son botones en el embed:**
-' +
-          '📢 **Publicar** → Publica en #tablero y crea thread
-' +
-          '🏮 **Abrir Inscripciones** → Los cazadores pueden apuntarse
-' +
-          '🔒 **Cerrar** → Cierra inscripciones manualmente
-' +
-          '⚔️ **Iniciar** → La expedición comienza (En Curso)
-' +
-          '📖 **Finalizar** → Abre modal para escribir la bitácora
-' +
-          '🏛️ **Archivar** → Mueve a la Crónica del Santuario
-' +
-          '📝 **Editar** → Modifica título, descripción o notas
-' +
-          '🗑️ **Eliminar** → Borra el expediente (solo en borrador)',
+Todo lo demas son botones en el embed:
+Publicar -> Publica en #tablero y crea thread
+Abrir Inscripciones -> Los cazadores pueden apuntarse
+Cerrar -> Cierra inscripciones manualmente
+Iniciar -> La expedicion comienza (En Curso)
+Finalizar -> Abre modal para escribir la bitacora
+Archivar -> Mueve a la Cronica del Santuario
+Editar -> Modifica titulo, descripcion o notas
+Eliminar -> Borra el expediente (solo en borrador)`,
       },
       {
-        name: '🏹 Cazadores — Inscribirse en Expedientes',
-        value:
-          '**No necesitas comandos.**
-' +
-          'Cuando una expedición está en estado 🏮 **Inscripciones Abiertas**, ' +
-          'aparece un botón en el embed:
+        name: 'Cazadores - Inscribirse en Expedientes',
+        value: `No necesitas comandos.
+Cuando una expedicion esta en estado Inscripciones Abiertas, aparece un boton en el embed:
 
-' +
-          '🙋 **Apuntarme** → Te inscribes (pide nombre de personaje)
-' +
-          '🚶 **Retirarme** → Cancelas tu inscripción',
+Apuntarme -> Te inscribes (pide nombre de personaje)
+Retirarme -> Cancelas tu inscripcion`,
       },
       {
-        name: '📚 Archivo Histórico',
-        value: '`/explorar archivo` → Buscador de todas las expediciones pasadas
+        name: 'Archivo Historico',
+        value: '/explorar archivo -> Buscador de todas las expediciones pasadas
 
-Filtros disponibles: por Sensei, región, rango, categoría, fecha y búsqueda de texto libre en bitácoras.',
+Filtros disponibles: por Sensei, region, rango, categoria, fecha y busqueda de texto libre en bitacoras.',
       },
       {
-        name: '❓ Comandos disponibles',
-        value:
-          '`/expediente crear` — Crear nueva expedición (Sensei)
-' +
-          '`/expediente ver <código>` — Ver cualquier expedición
-' +
-          '`/explorar archivo` — Archivo histórico
-' +
-          '`/ayuda` — Esta guía',
+        name: 'Comandos disponibles',
+        value: `/expediente crear - Crear nueva expedicion (Sensei)
+/expediente ver <codigo> - Ver cualquier expedicion
+/explorar archivo - Archivo historico
+/ayuda - Esta guia`,
       }
     )
-    .setFooter({ text: 'Torii — Sistema de Expediciones del Santuario' });
+    .setFooter({ text: 'Torii - Sistema de Expediciones del Santuario' });
 
   await interaction.reply({ embeds: [embed], ephemeral: true });
 }

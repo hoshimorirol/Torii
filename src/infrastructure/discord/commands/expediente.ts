@@ -3,13 +3,13 @@ import { MissionRepository } from '../../../application/ports/MissionRepository'
 
 export const expedienteCommand = new SlashCommandBuilder()
   .setName('expediente')
-  .setDescription('Gestión de expedientes del Santuario')
+  .setDescription('Gestion de expedientes del Santuario')
   .addSubcommand(sub =>
     sub.setName('crear').setDescription('Crear un nuevo expediente')
   )
   .addSubcommand(sub =>
     sub.setName('ver').setDescription('Ver un expediente')
-      .addStringOption(opt => opt.setName('codigo').setDescription('Código del expediente').setRequired(true))
+      .addStringOption(opt => opt.setName('codigo').setDescription('Codigo del expediente').setRequired(true))
   )
   .addSubcommand(sub =>
     sub.setName('mis_borradores').setDescription('Ver tus borradores')
@@ -21,18 +21,18 @@ export async function handleExpedienteCommand(interaction: ChatInputCommandInter
   if (subcommand === 'crear') {
     const modal = new ModalBuilder()
       .setCustomId('modal_crear_expediente')
-      .setTitle('📜 Nuevo Expediente');
+      .setTitle('Nuevo Expediente');
 
     const titulo = new TextInputBuilder()
       .setCustomId('titulo')
-      .setLabel('Título de la expedición')
+      .setLabel('Titulo de la expedicion')
       .setStyle(TextInputStyle.Short)
       .setRequired(true)
       .setMaxLength(100);
 
     const descripcion = new TextInputBuilder()
       .setCustomId('descripcion')
-      .setLabel('Descripción / Llamada del Santuario')
+      .setLabel('Descripcion / Llamada del Santuario')
       .setStyle(TextInputStyle.Paragraph)
       .setRequired(true)
       .setMaxLength(4000);
@@ -45,14 +45,14 @@ export async function handleExpedienteCommand(interaction: ChatInputCommandInter
 
     const plazasMin = new TextInputBuilder()
       .setCustomId('plazas_min')
-      .setLabel('Plazas mínimas')
+      .setLabel('Plazas minimas')
       .setStyle(TextInputStyle.Short)
       .setRequired(true)
       .setValue('3');
 
     const plazasMax = new TextInputBuilder()
       .setCustomId('plazas_max')
-      .setLabel('Plazas máximas')
+      .setLabel('Plazas maximas')
       .setStyle(TextInputStyle.Short)
       .setRequired(true)
       .setValue('6');
@@ -73,10 +73,10 @@ export async function handleExpedienteCommand(interaction: ChatInputCommandInter
     const codigo = interaction.options.getString('codigo', true);
     const mission = await missionRepository.findByCode(codigo);
     if (!mission) {
-      await interaction.reply({ content: '❌ Expediente no encontrado.', ephemeral: true });
+      await interaction.reply({ content: 'Expediente no encontrado.', ephemeral: true });
       return;
     }
-    await interaction.reply({ content: `📜 **${mission.title}**\n📝 Estado: ${mission.status}\n📋 ${mission.description.substring(0, 200)}...`, ephemeral: true });
+    await interaction.reply({ content: `**${mission.title}**\nEstado: ${mission.status}\n${mission.description.substring(0, 200)}...`, ephemeral: true });
     return;
   }
 
@@ -86,8 +86,8 @@ export async function handleExpedienteCommand(interaction: ChatInputCommandInter
       await interaction.reply({ content: 'No tienes borradores activos.', ephemeral: true });
       return;
     }
-    const list = missions.map(m => `• **${m.code}** — ${m.title}`).join('\n');
-    await interaction.reply({ content: `📝 Tus borradores:\n${list}`, ephemeral: true });
+    const list = missions.map(m => `• ${m.code} - ${m.title}`).join('\n');
+    await interaction.reply({ content: `Tus borradores:\n${list}`, ephemeral: true });
     return;
   }
 }

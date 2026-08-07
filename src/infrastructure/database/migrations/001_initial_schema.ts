@@ -124,7 +124,6 @@ export async function up(knex: Knex): Promise<void> {
     table.string('timezone').defaultTo('Europe/Madrid');
   });
 
-  // Seeds
   await knex('regions').insert([
     { name: 'Isla de Tsukishima', parent_region: 'Wa', is_custom: false },
     { name: 'Ciudad de Uwajima', parent_region: 'Wa', is_custom: false },
@@ -143,8 +142,8 @@ export async function up(knex: Knex): Promise<void> {
     { name: 'Deshi', min_lv: 1, max_lv: 3 },
     { name: 'Heishi', min_lv: 4, max_lv: 6 },
     { name: 'Senshi', min_lv: 7, max_lv: 9 },
-    { name: 'Rōnin', min_lv: 10, max_lv: 12 },
-    { name: 'Bushō', min_lv: 13, max_lv: 15 },
+    { name: 'Ronin', min_lv: 10, max_lv: 12 },
+    { name: 'Busho', min_lv: 13, max_lv: 15 },
   ]);
 }
 

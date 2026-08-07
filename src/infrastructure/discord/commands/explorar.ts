@@ -2,14 +2,14 @@ import { SlashCommandBuilder, ChatInputCommandInteraction } from 'discord.js';
 
 export const explorarCommand = new SlashCommandBuilder()
   .setName('explorar')
-  .setDescription('Archivo histórico del Santuario')
+  .setDescription('Archivo historico del Santuario')
   .addSubcommand(sub =>
-    sub.setName('archivo').setDescription('Buscar en el archivo histórico')
+    sub.setName('archivo').setDescription('Buscar en el archivo historico')
   );
 
 export async function handleExplorarCommand(interaction: ChatInputCommandInteraction) {
   await interaction.reply({
-    content: '📚 Archivo Histórico del Santuario\n*(Función en desarrollo — Fase 5)*',
+    content: 'Archivo Historico del Santuario (Funcion en desarrollo - Fase 5)',
     ephemeral: true,
   });
 }

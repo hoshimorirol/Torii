@@ -37,16 +37,16 @@ export class Mission {
 
   constructor(data: MissionData) {
     if (!data.title || data.title.trim().length === 0) {
-      throw new DomainError('El título es obligatorio');
+      throw new DomainError('El titulo es obligatorio');
     }
     if (!data.description || data.description.trim().length === 0) {
-      throw new DomainError('La descripción es obligatoria');
+      throw new DomainError('La descripcion es obligatoria');
     }
     if (data.slotsMin < 1 || data.slotsMin > 20) {
-      throw new DomainError('Plazas mínimas entre 1 y 20');
+      throw new DomainError('Plazas minimas entre 1 y 20');
     }
     if (data.slotsMax < data.slotsMin || data.slotsMax > 20) {
-      throw new DomainError('Plazas máximas deben ser >= mínimas y <= 20');
+      throw new DomainError('Plazas maximas deben ser >= minimas y <= 20');
     }
     this._data = data;
   }

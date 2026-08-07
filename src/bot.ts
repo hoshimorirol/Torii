@@ -63,7 +63,7 @@ async function main() {
     } catch (error) {
       console.error('[Interaction] Unhandled error:', error);
       if (interaction.isRepliable() && !interaction.replied && !interaction.deferred) {
-        await interaction.reply({ content: '❌ Ha ocurrido un error inesperado.', ephemeral: true });
+        await interaction.reply({ content: 'Ha ocurrido un error inesperado.', ephemeral: true });
       }
     }
   });

@@ -1,7 +1,7 @@
 {
   "name": "torii-bot",
   "version": "1.0.0",
-  "description": "Sistema de Gestión de Expediciones del Santuario Hoshizora",
+  "description": "Sistema de Gestion de Expediciones del Santuario Hoshizora",
   "main": "dist/src/bot.js",
   "engines": { "node": "20.x" },
   "scripts": {

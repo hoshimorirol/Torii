@@ -17,7 +17,6 @@ export const db = knex({
   },
 });
 
-// Enable WAL mode and foreign keys
 db.raw('PRAGMA journal_mode = WAL').then(() => {
   console.log('[DB] WAL mode enabled');
 });

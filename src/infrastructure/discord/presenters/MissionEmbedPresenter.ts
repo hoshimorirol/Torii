@@ -15,15 +15,15 @@ const statusColors: Record<string, number> = {
 
 export function createMissionEmbed(mission: Mission): EmbedBuilder {
   const embed = new EmbedBuilder()
-    .setTitle(`${mission.code} — ${mission.title}`)
+    .setTitle(`${mission.code} - ${mission.title}`)
     .setDescription(mission.description)
     .setColor(statusColors[mission.status] || 0x6B7280)
     .addFields(
-      { name: '📊 Estado', value: mission.status, inline: true },
-      { name: '👤 Sensei', value: `<@${mission.senseiId}>`, inline: true },
-      { name: '🎲 Plazas', value: `${mission.slotsMin} - ${mission.slotsMax}`, inline: true }
+      { name: 'Estado', value: mission.status, inline: true },
+      { name: 'Sensei', value: `<@${mission.senseiId}>`, inline: true },
+      { name: 'Plazas', value: `${mission.slotsMin} - ${mission.slotsMax}`, inline: true }
     )
-    .setFooter({ text: 'Torii — Sistema de Expediciones del Santuario' });
+    .setFooter({ text: 'Torii - Sistema de Expediciones del Santuario' });
 
   if (mission.imageUrl) {
     embed.setImage(mission.imageUrl);
