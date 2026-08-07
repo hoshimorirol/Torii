@@ -1,4 +1,4 @@
-import { MissionStatus } from '../value-objects/MissionStatus';
+import { MissionStatus, canTransition } from '../value-objects/MissionStatus';
 import { DomainError } from '../errors/DomainError';
 
 export interface MissionData {
@@ -79,6 +79,51 @@ export class Mission {
   get tags() { return this._data.tags; }
   get createdAt() { return this._data.createdAt; }
   get updatedAt() { return this._data.updatedAt; }
+
+  private transitionTo(newStatus: MissionStatus): void {
+    const current = this._data.status as string;
+    if (!canTransition(current, newStatus)) {
+      throw new DomainError(`Transicion invalida de ${current} a ${newStatus}`);
+    }
+    this._data.status = newStatus;
+    this._data.updatedAt = new Date();
+  }
+
+  publish(): void {
+    this.transitionTo(MissionStatus.PUBLICADA);
+    this._data.publishedAt = new Date();
+  }
+
+  openEnrollment(): void {
+    this.transitionTo(MissionStatus.INSCRIPCION_ABIERTA);
+  }
+
+  closeEnrollment(): void {
+    this.transitionTo(MissionStatus.COMPLETA);
+  }
+
+  start(): void {
+    this.transitionTo(MissionStatus.EN_CURSO);
+    this._data.startedAt = new Date();
+  }
+
+  complete(): void {
+    this.transitionTo(MissionStatus.FINALIZADA);
+    this._data.closedAt = new Date();
+  }
+
+  archive(): void {
+    this.transitionTo(MissionStatus.ARCHIVADA);
+  }
+
+  cancel(): void {
+    this.transitionTo(MissionStatus.CANCELADA);
+  }
+
+  reopen(): void {
+    this._data.status = MissionStatus.BORRADOR;
+    this._data.updatedAt = new Date();
+  }
 
   toData(): MissionData {
     return { ...this._data };
