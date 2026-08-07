@@ -11,12 +11,13 @@ export const db = knex({
   useNullAsDefault: true,
   migrations: {
     directory: isProduction
-      ? path.join(process.cwd(), 'dist', 'infrastructure', 'database', 'migrations')
+      ? path.join(process.cwd(), 'src', 'infrastructure', 'database', 'migrations')
       : path.join(process.cwd(), 'src', 'infrastructure', 'database', 'migrations'),
-    loadExtensions: isProduction ? ['.js'] : ['.ts', '.js'],
+    loadExtensions: ['.ts', '.js'],
   },
 });
 
+// Enable WAL mode and foreign keys
 db.raw('PRAGMA journal_mode = WAL').then(() => {
   console.log('[DB] WAL mode enabled');
 });
