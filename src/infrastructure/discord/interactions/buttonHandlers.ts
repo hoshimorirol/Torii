@@ -1,7 +1,6 @@
 import { ButtonInteraction } from 'discord.js';
 import { MissionRepository } from '../../../application/ports/MissionRepository';
 import { Mission } from '../../../core/entities/Mission';
-import { MissionStatus } from '../../../core/value-objects/MissionStatus';
 
 export async function handleButtonInteraction(
   interaction: ButtonInteraction,
@@ -10,7 +9,6 @@ export async function handleButtonInteraction(
   const { customId } = interaction;
 
   try {
-    // Ejemplo: publish_mission_123
     if (customId.startsWith('publish_mission_')) {
       const missionId = parseInt(customId.replace('publish_mission_', ''), 10);
       const mission = await missionRepository.findById(missionId);
@@ -32,7 +30,6 @@ export async function handleButtonInteraction(
       return;
     }
 
-    // Ejemplo: open_enrollment_123
     if (customId.startsWith('open_enrollment_')) {
       const missionId = parseInt(customId.replace('open_enrollment_', ''), 10);
       const mission = await missionRepository.findById(missionId);
@@ -54,7 +51,6 @@ export async function handleButtonInteraction(
       return;
     }
 
-    // Ejemplo: delete_mission_123
     if (customId.startsWith('delete_mission_')) {
       const missionId = parseInt(customId.replace('delete_mission_', ''), 10);
       const mission = await missionRepository.findById(missionId);
