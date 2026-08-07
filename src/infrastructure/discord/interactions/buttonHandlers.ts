@@ -1,58 +1,84 @@
 import { ButtonInteraction } from 'discord.js';
 import { MissionRepository } from '../../../application/ports/MissionRepository';
-import { MissionStatus, canTransition } from '../../../core/value-objects/MissionStatus';
+import { Mission } from '../../../core/entities/Mission';
+import { MissionStatus } from '../../../core/value-objects/MissionStatus';
 
 export async function handleButtonInteraction(
   interaction: ButtonInteraction,
   missionRepository: MissionRepository
 ) {
-  const customId = interaction.customId;
-  const parts = customId.split('_');
-  const action = parts[1];
-  const missionId = parseInt(parts[2]);
-
-  if (isNaN(missionId)) {
-    await interaction.reply({ content: 'ID invalido.', ephemeral: true });
-    return;
-  }
-
-  const mission = await missionRepository.findById(missionId);
-  if (!mission) {
-    await interaction.reply({ content: 'Expediente no encontrado.', ephemeral: true });
-    return;
-  }
-
-  if (mission.senseiId !== interaction.user.id) {
-    await interaction.reply({ content: 'Solo el Sensei de esta expedicion puede gestionarla.', ephemeral: true });
-    return;
-  }
+  const { customId } = interaction;
 
   try {
-    if (action === 'publicar') {
-      if (!canTransition(mission.status, MissionStatus.PUBLICADA)) {
-        await interaction.reply({ content: 'No se puede publicar desde este estado.', ephemeral: true });
+    // Ejemplo: publish_mission_123
+    if (customId.startsWith('publish_mission_')) {
+      const missionId = parseInt(customId.replace('publish_mission_', ''), 10);
+      const mission = await missionRepository.findById(missionId);
+
+      if (!mission) {
+        await interaction.reply({ content: '❌ Expediente no encontrado.', ephemeral: true });
         return;
       }
-      const updated = await missionRepository.update(
-        Mission.reconstitute({ ...mission.toData(), status: MissionStatus.PUBLICADA, publishedAt: new Date() })
-      );
-      await interaction.reply({ content: `Expediente ${updated.code} publicado.`, ephemeral: true });
+
+      if (mission.senseiId !== interaction.user.id) {
+        await interaction.reply({ content: '⛔ No tienes permiso para publicar este expediente.', ephemeral: true });
+        return;
+      }
+
+      mission.publish();
+      await missionRepository.update(mission);
+
+      await interaction.reply({ content: '✅ Expediente publicado correctamente.', ephemeral: true });
       return;
     }
 
-    if (action === 'eliminar') {
-      if (mission.status !== MissionStatus.BORRADOR) {
-        await interaction.reply({ content: 'Solo se pueden eliminar borradores.', ephemeral: true });
+    // Ejemplo: open_enrollment_123
+    if (customId.startsWith('open_enrollment_')) {
+      const missionId = parseInt(customId.replace('open_enrollment_', ''), 10);
+      const mission = await missionRepository.findById(missionId);
+
+      if (!mission) {
+        await interaction.reply({ content: '❌ Expediente no encontrado.', ephemeral: true });
         return;
       }
+
+      if (mission.senseiId !== interaction.user.id) {
+        await interaction.reply({ content: '⛔ No tienes permiso.', ephemeral: true });
+        return;
+      }
+
+      mission.openEnrollment();
+      await missionRepository.update(mission);
+
+      await interaction.reply({ content: '📝 Inscripciones abiertas.', ephemeral: true });
+      return;
+    }
+
+    // Ejemplo: delete_mission_123
+    if (customId.startsWith('delete_mission_')) {
+      const missionId = parseInt(customId.replace('delete_mission_', ''), 10);
+      const mission = await missionRepository.findById(missionId);
+
+      if (!mission) {
+        await interaction.reply({ content: '❌ Expediente no encontrado.', ephemeral: true });
+        return;
+      }
+
+      if (mission.senseiId !== interaction.user.id) {
+        await interaction.reply({ content: '⛔ No tienes permiso para eliminar este expediente.', ephemeral: true });
+        return;
+      }
+
       await missionRepository.delete(missionId);
-      await interaction.reply({ content: `Expediente ${mission.code} eliminado.`, ephemeral: true });
+      await interaction.reply({ content: '🗑️ Expediente eliminado.', ephemeral: true });
       return;
     }
 
-    await interaction.reply({ content: 'Accion en desarrollo.', ephemeral: true });
-  } catch (error: any) {
+    await interaction.reply({ content: '❌ Acción no reconocida.', ephemeral: true });
+  } catch (error) {
     console.error('[Button] Error:', error);
-    await interaction.reply({ content: `Error: ${error.message}`, ephemeral: true });
+    if (!interaction.replied && !interaction.deferred) {
+      await interaction.reply({ content: '❌ Error al procesar la acción.', ephemeral: true });
+    }
   }
 }
