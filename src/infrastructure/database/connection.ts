@@ -1,8 +1,6 @@
 import knex from 'knex';
 import path from 'path';
 
-const isProduction = process.env.NODE_ENV === 'production';
-
 export const db = knex({
   client: 'better-sqlite3',
   connection: {
@@ -10,9 +8,7 @@ export const db = knex({
   },
   useNullAsDefault: true,
   migrations: {
-    directory: isProduction
-      ? path.join(process.cwd(), 'src', 'infrastructure', 'database', 'migrations')
-      : path.join(process.cwd(), 'src', 'infrastructure', 'database', 'migrations'),
+    directory: path.join(process.cwd(), 'src', 'infrastructure', 'database', 'migrations'),
     loadExtensions: ['.ts', '.js'],
   },
 });
